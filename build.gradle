@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'guru.qa'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def selenideVersion = "6.19.1",
+    jUnitJupiterVersion = "5.10.0",
+    slf4jSimpleVersion = "2.0.9"
+
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:$selenideVersion",
+            "org.junit.jupiter:junit-jupiter:$jUnitJupiterVersion",
+            "org.slf4j:slf4j-simple:$slf4jSimpleVersion")
+}
+
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
